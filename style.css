@@ -16,3 +16,40 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 }
 
 /* Start here */
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+}
+
+#container {
+    width: calc(100vw - 50px);
+    height: calc(100vw - 50px);
+    margin: 0 auto;
+}
+
+#gameboard {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+@media (orientation: landscape) {
+    #container {
+        width: calc(100vh - 300px);
+        height: calc(100vh - 300px);
+    }
+}
+
+.cell {
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    cursor: pointer;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
