@@ -1,5 +1,5 @@
 # Tic Tac Toe
-Tic Tac Toe game built with JS, HTML and CSS (The Odin Project).
+Tic Tac Toe game built with JS, HTML and CSS.
 From [The Odin Project's](https://www.theodinproject.com/) [curriculum](https://www.theodinproject.com/lessons/tic-tac-toe-javascript)
 
 Link to live demo: https://faishalirwn.github.io/tic-tac-toe/.
