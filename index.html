@@ -10,6 +10,10 @@
     <main>
         <h1>Tic Tac Toe</h1>
         <div id="container">
+            <h3 id="scoreboard">
+                <span id="p1"></span> <span id="p1score"></span> vs <span id="p2score"></span> <span id="p2"></span>
+            </h3>
+            <h2 style="display: none;" id="announcement"></h2>
             <div id="gameboard">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
@@ -22,8 +26,33 @@
                 <div class="cell" data-index="8"></div>
             </div>
             <div>
-                <button id="restart">⚙</button>
-                <button id="setting">🔁</button>
+                <button class="btn" id="setting">⚙</button>
+                <button class="btn" id="restart">🔁</button>
+            </div>
+            <div id="modal">
+                <div id="modal-content">
+                    <div id="mode">
+                        <div>
+                            <input type="radio" name="mode" id="pvp" value="pvp" checked>
+                            <label for="pvp">Play with other player</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="mode" id="pvai" value="pvai">
+                            <label for="pvai">Play with AI (under development)</label>
+                        </div>
+                    </div>
+                    <div id="player-name">
+                        <div>
+                            <label for="">Player 1 name:</label>
+                            <input type="text" id="p1input" placeholder="Professor X">
+                        </div>
+                        <div>
+                            <label for="">Player 2 name:</label>
+                            <input type="text" id="p2input" placeholder="Inspector O">
+                        </div>
+                    </div>
+                    <button class="btn" id="confirm">OK</button>
+                </div>
             </div>
         </div>
     </main>

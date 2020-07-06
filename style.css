@@ -22,26 +22,27 @@ h1 {
     font-size: 3rem;
 }
 
+#p1score, #p2score {
+    font-weight: bold;
+}
+
 #container {
     width: calc(100vw - 50px);
-    height: calc(100vw - 50px);
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #gameboard {
     width: 100%;
-    height: 100%;
+    height: calc(100vw - 50px);
+    /* height: 100%; */
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-}
-
-@media (orientation: landscape) {
-    #container {
-        width: calc(100vh - 300px);
-        height: calc(100vh - 300px);
-    }
+    margin-bottom: 20px;
 }
 
 .cell {
@@ -52,4 +53,54 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#modal {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+#modal-content {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fefefe;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+}
+
+#mode, #player-name {
+    margin-bottom: 20px;
+}
+
+.btn {
+    padding: 10px 30px;
+}
+
+#restart, #setting {
+    font-size: 1.5rem;
+}
+
+@media (orientation: landscape) {
+    #gameboard {
+        height: calc(100vh - 300px);
+    }
+
+    #container {
+        width: calc(100vh - 300px);
+    }
+
+    #modal-content {
+        width: 30%;
+    }
 }

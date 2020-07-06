@@ -13,14 +13,30 @@ const game = (function() {
     }
 
     const start = () => {
-        const p1 = Player("Professor", "X");
-        const p2 = Player("Inspector", "O");
-        _state.players = [p1, p2];
+        const modal = document.querySelector("#modal");
+        modal.addEventListener("click", function(e) {
+            const names = displayController.handleModal(e);
 
-        if (_state.currentPlayer === "") {
-            _state.currentPlayer = p1;
-        }
+            if (_state.players.length === 0 && names.length !== 0) {
+                const p1 = Player(names[0], "X");
+                const p2 = Player(names[1], "O");
+    
+                _state.players = [p1, p2];
+                _state.currentPlayer = p1;
 
+                displayController.displayPlayerInfo(_state.players);
+            } else if (names.length !== 0) {
+                _state.players[0].setName(names[0]);
+                _state.players[1].setName(names[1]);
+
+                displayController.displayPlayerInfo(_state.players);
+            }
+
+            // if (_state.currentPlayer === "") {
+            //     _state.currentPlayer = p1;
+            // }            
+        });
+        
         displayController.render();
 
         const cells = document.querySelectorAll(".cell");
@@ -30,10 +46,16 @@ const game = (function() {
                 if (!gameBoard.board[index] && _state.end === false) {
                     _state.currentPlayer.addMark(index);
                     winChecker(_state.currentPlayer, index);
-                    switchPlayer(p1, p2);
+                    switchPlayer(_state.players[0], _state.players[1]);
                 }
             });
         });
+
+        const settingBtn = document.querySelector("#setting");
+        settingBtn.addEventListener("click", displayController.handleSetting);
+
+        const restartBtn = document.querySelector("#restart");
+        restartBtn.addEventListener("click", restart);
     }
 
     const switchPlayer = (p1, p2) => {
@@ -89,13 +111,27 @@ const game = (function() {
         }        
     }
 
+    const restart = () => {
+        _state.win = false;
+        _state.draw = false;
+        _state.end = false;
+        console.log(_state.win, _state.draw, _state.end);
+        _state.currentPlayer = _state.players[0];
+        gameBoard.board = ["", "", "", "", "", "", "", "", ""];
+
+        displayController.render();
+        displayController.hideAnnouncement();
+    }
+
     const end = () => {
         if (_state.win) {
-            alert(`${_state.currentPlayer.getName()} win, score ${_state.players[0].getScore()} : ${_state.players[1].getScore()}`);
+            displayController.displayWinner(_state.currentPlayer);
         } else {
-            alert("draw");
+            displayController.displayDraw();
         }
         _state.end = true;
+
+        displayController.displayPlayerInfo(_state.players);
     }
 
     return { start };
@@ -108,14 +144,71 @@ const displayController = (function() {
             el.textContent = gameBoard.board[i];
         });
     }
-    return { render }
+
+    const handleSetting = () => {
+        const modal = document.querySelector("#modal");
+        modal.style.display = "block";
+    }
+
+    const handleModal = (e) => {
+        const modal = document.querySelector("#modal");
+        let p1Name, p2Name;
+        if (e.target.id === "confirm") {
+            p1Name = document.querySelector("#p1input").value ? document.querySelector("#p1input").value : document.querySelector("#p1input").placeholder;
+            p2Name = document.querySelector("#p2input").value ? document.querySelector("#p2input").value : document.querySelector("#p2input").placeholder;            
+            modal.style.display = "none";
+            return [p1Name, p2Name];
+        } else if (e.target.id === "modal") {
+            p1Name = document.querySelector("#p1input").placeholder;
+            p2Name = document.querySelector("#p2input").placeholder;            
+            modal.style.display = "none";
+            return [p1Name, p2Name];
+        }
+
+        return [];
+    }
+
+    const displayPlayerInfo = (players) => {
+        const p1NameNode = document.querySelector("#p1");
+        const p2NameNode = document.querySelector("#p2");
+        const p1ScoreNode = document.querySelector("#p1score");
+        const p2ScoreNode = document.querySelector("#p2score");
+
+        p1NameNode.textContent = players[0].getName();
+        p2NameNode.textContent = players[1].getName();
+        p1ScoreNode.textContent = players[0].getScore();
+        p2ScoreNode.textContent = players[1].getScore();
+    }
+
+    const displayWinner = (player) => {
+        const announcementNode = document.querySelector("#announcement");
+        announcementNode.style.display = "block";
+        announcementNode.textContent = `${player.getName()} wins!`;
+    }
+
+    const displayDraw = () => {
+        const announcementNode = document.querySelector("#announcement");
+        announcementNode.style.display = "block";
+        announcementNode.textContent = `Draw!`;
+    }
+
+    const hideAnnouncement = () => {
+        const announcementNode = document.querySelector("#announcement");
+        announcementNode.style.display = "none";
+    }
+
+    return { render, handleModal, displayPlayerInfo, handleSetting, displayWinner, displayDraw, hideAnnouncement };
 })();
 
 const Player = (name, mark) => {
+    let _name = name;
+    let _mark = mark;
     let _score = 0;
-    const getName = () => name;
-    const getMark = () => mark;
+    const getName = () => _name;
+    const getMark = () => _mark;
     const getScore = () => _score;
+
+    const setName = (newName) => _name = newName;
     
     const addScore = (increment) => _score += increment;
     const addMark = (index) => {
@@ -123,7 +216,7 @@ const Player = (name, mark) => {
         displayController.render();        
     }
 
-    return { getName, addMark, getMark, getScore, addScore };
+    return { getName, addMark, getMark, getScore, addScore, setName };
 }
 
 game.start();
