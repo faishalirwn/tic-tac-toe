@@ -28,6 +28,8 @@ h1 {
 
 #p1score, #p2score {
     font-weight: bold;
+    padding: 0 10px;
+    border: 2px dotted black;
 }
 
 #container {
